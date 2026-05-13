@@ -1,0 +1,782 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rutina de gimnasio 4 días</title>
+  <style>
+    :root{
+      --bg:#f6f1e8;
+      --card:#fffaf2;
+      --ink:#1d211f;
+      --muted:#6d6258;
+      --line:#e5d9c7;
+      --accent:#2f5d50;
+      --accent2:#d58a4a;
+      --soft:#efe3d2;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 0 0,rgba(213,138,74,.22),transparent 26rem),
+        radial-gradient(circle at 100% 20%,rgba(47,93,80,.16),transparent 26rem),
+        var(--bg);
+      line-height:1.5;
+    }
+
+    header,main,footer{
+      max-width:1180px;
+      margin:0 auto;
+      padding-inline:22px;
+    }
+
+    header{
+      padding-top:54px;
+      padding-bottom:24px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,250,242,.78);
+      color:var(--accent);
+      font-size:13px;
+      font-weight:800;
+    }
+
+    h1{
+      max-width:850px;
+      margin:18px 0 12px;
+      font-size:clamp(38px,7vw,82px);
+      line-height:.94;
+      letter-spacing:-.07em;
+    }
+
+    .lead{
+      max-width:780px;
+      margin:0;
+      color:var(--muted);
+      font-size:18px;
+    }
+
+    nav{
+      position:sticky;
+      top:0;
+      z-index:5;
+      backdrop-filter:blur(14px);
+      background:rgba(246,241,232,.82);
+      border-block:1px solid rgba(229,217,199,.85);
+    }
+
+    .nav-inner{
+      max-width:1180px;
+      margin:0 auto;
+      padding:11px 22px;
+      display:flex;
+      gap:10px;
+      overflow-x:auto;
+    }
+
+    .nav-inner a{
+      flex:0 0 auto;
+      color:var(--ink);
+      text-decoration:none;
+      font-weight:800;
+      font-size:14px;
+      border:1px solid var(--line);
+      background:var(--card);
+      padding:9px 13px;
+      border-radius:999px;
+    }
+
+    .nav-inner a:hover{
+      background:var(--accent);
+      color:white;
+      border-color:var(--accent);
+    }
+
+    main{
+      padding-top:22px;
+      padding-bottom:64px;
+    }
+
+    .summary{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+      margin-bottom:18px;
+    }
+
+    .summary article,
+    .day,
+    .info{
+      background:rgba(255,250,242,.9);
+      border:1px solid var(--line);
+      border-radius:28px;
+      box-shadow:0 18px 54px rgba(31,24,18,.07);
+    }
+
+    .summary article{padding:17px}
+    .summary strong{display:block;margin-bottom:4px}
+    .summary span{color:var(--muted);font-size:14px}
+
+    .info-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-bottom:22px;
+    }
+
+    .info{padding:22px}
+    .info h2{margin:0 0 8px;font-size:22px;letter-spacing:-.03em}
+    .info p{margin:0;color:var(--muted)}
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:14px;
+    }
+
+    .chip{
+      background:var(--soft);
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:800;
+    }
+
+    .day{
+      overflow:hidden;
+      margin-top:22px;
+    }
+
+    .day-head{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:16px;
+      padding:26px;
+      background:linear-gradient(135deg,rgba(47,93,80,.09),rgba(213,138,74,.11));
+      border-bottom:1px solid var(--line);
+    }
+
+    .day h2{
+      margin:0;
+      font-size:clamp(27px,4vw,42px);
+      letter-spacing:-.055em;
+    }
+
+    .day-desc{
+      margin:8px 0 0;
+      color:var(--muted);
+      max-width:720px;
+    }
+
+    .tag{
+      align-self:start;
+      background:var(--accent);
+      color:white;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    .exercise-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:1px;
+      background:var(--line);
+    }
+
+    .exercise{
+      min-height:218px;
+      background:var(--card);
+      padding:18px;
+      display:grid;
+      grid-template-columns:160px 1fr;
+      gap:16px;
+    }
+
+    figure{
+      margin:0;
+      border-radius:20px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:var(--soft);
+      position:relative;
+      min-height:178px;
+    }
+
+    img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .fallback{
+      position:absolute;
+      inset:0;
+      display:none;
+      place-items:center;
+      text-align:center;
+      padding:12px;
+      color:var(--accent);
+      font-weight:900;
+      background:repeating-linear-gradient(
+        135deg,
+        #f7ecde,
+        #f7ecde 11px,
+        #eedfca 11px,
+        #eedfca 22px
+      );
+    }
+
+    h3{
+      margin:0 0 8px;
+      font-size:19px;
+      line-height:1.1;
+      letter-spacing:-.035em;
+    }
+
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:7px;
+      margin-bottom:10px;
+    }
+
+    .meta span{
+      background:var(--soft);
+      border-radius:999px;
+      padding:6px 9px;
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .cue{
+      margin:0;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .alt{
+      margin-top:10px;
+      font-size:13px;
+      color:var(--accent);
+      font-weight:900;
+    }
+
+    .rules-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .rule{
+      background:var(--soft);
+      border-radius:22px;
+      padding:16px;
+    }
+
+    .rule strong{
+      display:block;
+      margin-bottom:5px;
+    }
+
+    .rule span{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    footer{
+      padding-bottom:42px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    footer a{
+      color:var(--accent);
+      font-weight:800;
+    }
+
+    @media(max-width:960px){
+      .summary,
+      .info-grid,
+      .exercise-grid,
+      .rules-grid{
+        grid-template-columns:1fr;
+      }
+
+      .exercise{
+        grid-template-columns:140px 1fr;
+      }
+    }
+
+    @media(max-width:620px){
+      header{padding-top:38px}
+
+      .day-head{
+        grid-template-columns:1fr;
+      }
+
+      .exercise{
+        grid-template-columns:1fr;
+      }
+
+      figure{
+        height:245px;
+      }
+    }
+
+    @media print{
+      nav{display:none}
+      body{background:white}
+
+      .day,
+      .info,
+      .summary article{
+        box-shadow:none;
+        break-inside:avoid;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <span class="eyebrow">Rutina para pareja · 4 días · principiante/intermedio</span>
+    <h1>Superior / inferior, funcional y sin vivir en el gym</h1>
+    <p class="lead">
+      Plan de 45 a 60 minutos por sesión. Ambos pueden hacer la misma estructura y ajustar únicamente la carga.
+      La prioridad es técnica, constancia y progresión simple.
+    </p>
+  </header>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="#semana">Semana</a>
+      <a href="#superior-a">Superior A</a>
+      <a href="#inferior-a">Inferior A</a>
+      <a href="#superior-b">Superior B</a>
+      <a href="#inferior-b">Inferior B</a>
+      <a href="#reglas">Reglas</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="summary" aria-label="Resumen">
+      <article>
+        <strong>Frecuencia</strong>
+        <span>4 días por semana</span>
+      </article>
+      <article>
+        <strong>Duración</strong>
+        <span>45–60 minutos</span>
+      </article>
+      <article>
+        <strong>Descanso</strong>
+        <span>60–90 segundos</span>
+      </article>
+      <article>
+        <strong>Intensidad</strong>
+        <span>1–3 reps en reserva</span>
+      </article>
+    </section>
+
+    <section class="info-grid" id="semana">
+      <article class="info">
+        <h2>Distribución sugerida</h2>
+        <p>
+          <strong>Lunes:</strong> Superior A ·
+          <strong>Martes:</strong> Inferior A ·
+          <strong>Jueves:</strong> Superior B ·
+          <strong>Sábado:</strong> Inferior B + funcional.
+          Miércoles y viernes pueden ser descanso o caminata suave.
+        </p>
+
+        <div class="chips">
+          <span class="chip">Pecho</span>
+          <span class="chip">Espalda</span>
+          <span class="chip">Pierna</span>
+          <span class="chip">Glúteo</span>
+          <span class="chip">Core</span>
+          <span class="chip">Funcional</span>
+        </div>
+      </article>
+
+      <article class="info">
+        <h2>Calentamiento express</h2>
+        <p>
+          5 minutos de caminata, bici o elíptica suave. Luego 10 sentadillas sin peso,
+          10 bisagras de cadera, 10 círculos de hombro y una serie liviana del primer ejercicio.
+        </p>
+      </article>
+    </section>
+
+    <div id="days"></div>
+
+    <section class="info" id="reglas" style="margin-top:22px">
+      <h2>Reglas rápidas para progresar</h2>
+      <p>
+        La rutina funciona si se repite con buena técnica y pequeñas mejoras.
+        No hace falta reinventarla cada semana.
+      </p>
+
+      <div class="rules-grid">
+        <div class="rule">
+          <strong>Peso correcto</strong>
+          <span>La última serie debe sentirse retadora, pero todavía podrían hacer 1–3 repeticiones más.</span>
+        </div>
+        <div class="rule">
+          <strong>Progresión</strong>
+          <span>Cuando logren el rango alto de reps con buena técnica, suban un poco el peso la próxima sesión.</span>
+        </div>
+        <div class="rule">
+          <strong>Versión rápida</strong>
+          <span>Si tienen afán, hagan los 4 primeros ejercicios del día y cierren con core o cardio corto.</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Imágenes de referencia tomadas de
+    <a href="https://github.com/yuhonas/free-exercise-db" target="_blank" rel="noreferrer">Free Exercise DB</a>.
+    Úsenlas como guía visual general; ante dolor, lesión o una condición médica,
+    ajusten con un entrenador o profesional de salud.
+  </footer>
+
+  <script>
+    const base = "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/";
+
+    const days = [
+      {
+        id: "superior-a",
+        title: "Día 1 · Tren superior A",
+        tag: "45–60 min",
+        desc: "Enfoque en pecho, espalda y fuerza general del torso. Ideal para hacer superseries y ahorrar tiempo.",
+        exercises: [
+          [
+            "Press de pecho con mancuernas o máquina",
+            "3 series",
+            "8–12 reps",
+            "Pecho",
+            "Dumbbell_Bench_Press/0.jpg",
+            "Baja controlado, codos a 45° y empuja sin despegar la espalda del banco.",
+            "Alternativa: press en máquina."
+          ],
+          [
+            "Remo sentado en polea o máquina",
+            "3 series",
+            "8–12 reps",
+            "Espalda",
+            "Seated_Cable_Rows/0.jpg",
+            "Lleva los codos atrás, junta escápulas y evita balancear el torso.",
+            "Superserie con press de pecho."
+          ],
+          [
+            "Press militar con mancuernas",
+            "3 series",
+            "8–10 reps",
+            "Hombro",
+            "Dumbbell_Shoulder_Press/0.jpg",
+            "Costillas abajo, abdomen firme y empuja vertical sin arquear la espalda.",
+            "Alternativa: máquina de hombro."
+          ],
+          [
+            "Jalón al pecho",
+            "3 series",
+            "10–12 reps",
+            "Dorsal",
+            "Wide-Grip_Lat_Pulldown/0.jpg",
+            "Lleva la barra hacia la parte alta del pecho, sin jalar detrás del cuello.",
+            "Superserie con press militar."
+          ],
+          [
+            "Elevaciones laterales",
+            "2–3 series",
+            "12–15 reps",
+            "Hombro",
+            "Side_Lateral_Raise/0.jpg",
+            "Peso moderado, sube hasta línea de hombros y evita impulsarte.",
+            "Si molesta: hacerlas en polea o máquina."
+          ],
+          [
+            "Curl de bíceps con mancuernas",
+            "2–3 series",
+            "10–12 reps",
+            "Bíceps",
+            "Dumbbell_Alternate_Bicep_Curl/0.jpg",
+            "Codos quietos, muñeca neutra y baja lento.",
+            "Superserie con tríceps."
+          ],
+          [
+            "Extensión de tríceps en cuerda",
+            "2–3 series",
+            "10–12 reps",
+            "Tríceps",
+            "Triceps_Pushdown_-_Rope_Attachment/0.jpg",
+            "Codos pegados al cuerpo, abre la cuerda abajo y controla la subida.",
+            "Alternativa: barra recta en polea."
+          ]
+        ]
+      },
+      {
+        id: "inferior-a",
+        title: "Día 2 · Tren inferior A",
+        tag: "Fuerte",
+        desc: "Pierna completa, glúteo, femoral y core. Este día construye la base.",
+        exercises: [
+          [
+            "Sentadilla goblet, sentadilla en máquina o prensa",
+            "3 series",
+            "8–12 reps",
+            "Cuádriceps",
+            "Goblet_Squat/0.jpg",
+            "Pecho arriba, rodillas siguen la línea de los pies y baja hasta donde controles.",
+            "Alternativa rápida: prensa."
+          ],
+          [
+            "Peso muerto rumano con mancuernas o barra",
+            "3 series",
+            "8–10 reps",
+            "Femoral",
+            "Romanian_Deadlift/0.jpg",
+            "Cadera atrás, espalda neutra y siente el estiramiento en femoral, no en zona lumbar.",
+            "Empieza con mancuernas si están ajustando técnica."
+          ],
+          [
+            "Hip thrust",
+            "3 series",
+            "10–12 reps",
+            "Glúteo",
+            "Barbell_Hip_Thrust/0.jpg",
+            "Mentón ligeramente abajo, pelvis estable y aprieta glúteo arriba sin hiperextender.",
+            "Alternativa: puente de glúteo en piso."
+          ],
+          [
+            "Zancadas o split squat",
+            "2–3 series",
+            "8–10 por pierna",
+            "Unilateral",
+            "Dumbbell_Lunges/0.jpg",
+            "Paso estable, torso firme y empuja desde el talón de la pierna delantera.",
+            "Si hay poco espacio: split squat fijo."
+          ],
+          [
+            "Curl femoral en máquina",
+            "2–3 series",
+            "10–12 reps",
+            "Femoral",
+            "Lying_Leg_Curls/0.jpg",
+            "Controla la bajada y no levantes la cadera del banco.",
+            "Alternativa: curl femoral sentado."
+          ],
+          [
+            "Plancha",
+            "3 series",
+            "30–45 seg",
+            "Core",
+            "Plank/0.jpg",
+            "Glúteos y abdomen activos; cuerpo en línea recta. Si tiembla, está saludando.",
+            "Final: 8–10 min de caminata inclinada."
+          ]
+        ]
+      },
+      {
+        id: "superior-b",
+        title: "Día 3 · Tren superior B",
+        tag: "Postura",
+        desc: "Más énfasis en espalda, hombro y postura. Muy útil si trabajan muchas horas sentados.",
+        exercises: [
+          [
+            "Jalón al pecho o dominada asistida",
+            "3 series",
+            "8–12 reps",
+            "Dorsal",
+            "Wide-Grip_Lat_Pulldown/1.jpg",
+            "Piensa en bajar los codos, no solo la barra. Cuello relajado.",
+            "Alternativa: dominada asistida."
+          ],
+          [
+            "Press inclinado con mancuernas o máquina",
+            "3 series",
+            "8–12 reps",
+            "Pecho alto",
+            "Incline_Dumbbell_Press/0.jpg",
+            "Banco entre 30° y 45°, baja controlado y no cierres demasiado los codos.",
+            "Alternativa: máquina de press inclinado."
+          ],
+          [
+            "Remo con mancuerna o máquina",
+            "3 series",
+            "10–12 reps",
+            "Espalda",
+            "One-Arm_Dumbbell_Row/0.jpg",
+            "Tira hacia la cadera, no hacia el hombro. Espalda estable.",
+            "Alternativa: remo pecho apoyado."
+          ],
+          [
+            "Face pulls en polea",
+            "3 series",
+            "12–15 reps",
+            "Deltoide posterior",
+            "Face_Pull/0.jpg",
+            "Jala hacia la cara, separa manos y mantén codos altos.",
+            "Clave para hombros sanos y postura."
+          ],
+          [
+            "Elevaciones laterales",
+            "3 series",
+            "12–15 reps",
+            "Hombro",
+            "Side_Lateral_Raise/1.jpg",
+            "Control antes que peso. El ego aquí pesa más que la mancuerna.",
+            "Pueden hacerlas al final en dropset suave."
+          ],
+          [
+            "Curl martillo",
+            "2–3 series",
+            "10–12 reps",
+            "Bíceps/antebrazo",
+            "Alternate_Hammer_Curl/0.jpg",
+            "Palmas enfrentadas y codos quietos. Sube fuerte, baja lento.",
+            "Superserie con tríceps."
+          ],
+          [
+            "Tríceps en polea",
+            "2–3 series",
+            "10–12 reps",
+            "Tríceps",
+            "Triceps_Pushdown/0.jpg",
+            "Bloquea codos cerca del cuerpo y controla todo el recorrido.",
+            "Alternativa: fondos asistidos."
+          ],
+          [
+            "Dead bug o crunch en máquina",
+            "3 series",
+            "10–15 reps",
+            "Core",
+            "Dead_Bug/0.jpg",
+            "Zona lumbar pegada al piso y movimiento lento. Si se arquea, reduce rango.",
+            "Alternativa: crunch en polea o máquina."
+          ]
+        ]
+      },
+      {
+        id: "inferior-b",
+        title: "Día 4 · Tren inferior B + funcional",
+        tag: "Funcional",
+        desc: "Glúteo, pierna, estabilidad y condición física. Día más dinámico, sin convertirlo en castigo romano.",
+        exercises: [
+          [
+            "Hip thrust o puente de glúteo",
+            "3 series",
+            "8–12 reps",
+            "Glúteo",
+            "Barbell_Hip_Thrust/1.jpg",
+            "Pausa 1 segundo arriba. Que trabaje el glúteo, no la espalda baja.",
+            "Alternativa: puente con mancuerna."
+          ],
+          [
+            "Prensa",
+            "3 series",
+            "10–12 reps",
+            "Pierna",
+            "Leg_Press/0.jpg",
+            "No bloquees rodillas arriba y baja hasta donde mantengas la cadera estable.",
+            "Pies medios para pierna general."
+          ],
+          [
+            "Peso muerto con kettlebell o mancuernas",
+            "3 series",
+            "10 reps",
+            "Bisagra",
+            "Kettlebell_Deadlift/0.jpg",
+            "Empuja el piso, cadera atrás y espalda neutra. Movimiento simple, efectivo y poco dramático.",
+            "Alternativa: rumano liviano."
+          ],
+          [
+            "Step-ups en banco",
+            "2–3 series",
+            "10 por pierna",
+            "Estabilidad",
+            "Dumbbell_Step_Ups/0.jpg",
+            "Sube empujando con la pierna de arriba, no rebotando con la de abajo.",
+            "Altura moderada al inicio."
+          ],
+          [
+            "Abducción de cadera o patada de glúteo",
+            "3 series",
+            "12–15 reps",
+            "Glúteo medio",
+            "Glute_Kickback/0.jpg",
+            "Controla la cadera y evita compensar con la espalda.",
+            "Alternativa: banda elástica lateral."
+          ],
+          [
+            "Farmer’s carry",
+            "3 series",
+            "30–40 seg",
+            "Funcional",
+            "Farmers_Walk/0.jpg",
+            "Camina con mancuernas pesadas, hombros abajo, abdomen firme y pasos cortos.",
+            "Final: 8–12 min de bici, remo o caminata inclinada."
+          ]
+        ]
+      }
+    ];
+
+    document.querySelector("#days").innerHTML = days.map(day => `
+      <section class="day" id="${day.id}">
+        <div class="day-head">
+          <div>
+            <h2>${day.title}</h2>
+            <p class="day-desc">${day.desc}</p>
+          </div>
+          <span class="tag">${day.tag}</span>
+        </div>
+
+        <div class="exercise-grid">
+          ${day.exercises.map(ex => `
+            <article class="exercise">
+              <figure>
+                <img
+                  src="${base}${ex[4]}"
+                  alt="Referencia visual: ${ex[0]}"
+                  loading="lazy"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"
+                >
+                <div class="fallback">${ex[0]}</div>
+              </figure>
+
+              <div>
+                <h3>${ex[0]}</h3>
+                <div class="meta">
+                  <span>${ex[1]}</span>
+                  <span>${ex[2]}</span>
+                  <span>${ex[3]}</span>
+                </div>
+                <p class="cue">${ex[5]}</p>
+                <div class="alt">${ex[6]}</div>
+              </div>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+    `).join("");
+  </script>
+</body>
+</html>
