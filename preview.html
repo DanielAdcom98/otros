@@ -3,37 +3,46 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rutina de gimnasio 4 días</title>
+  <title>Rutina Upper / Lower 4 dias</title>
 
   <style>
     :root{
-      --bg:#f6f1e8;
-      --card:#fffaf2;
-      --ink:#1d211f;
-      --muted:#6d6258;
-      --line:#e5d9c7;
-      --accent:#2f5d50;
-      --accent2:#d58a4a;
-      --soft:#efe3d2;
+      --bg:#f7f3ea;
+      --surface:#fffdf8;
+      --surface-2:#f0e7d8;
+      --ink:#202522;
+      --muted:#6c655d;
+      --line:#e2d7c7;
+      --accent:#2f6b59;
+      --accent-dark:#234f43;
+      --warm:#c7773c;
+      --blue:#315c7a;
+      --good:#4f7f51;
+      --shadow:0 18px 54px rgba(35,28,20,.08);
     }
 
-    *{
-      box-sizing:border-box;
-    }
+    *{box-sizing:border-box}
 
-    html{
-      scroll-behavior:smooth;
-    }
+    html{scroll-behavior:smooth}
 
     body{
       margin:0;
       font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       color:var(--ink);
       background:
-        radial-gradient(circle at 0 0,rgba(213,138,74,.22),transparent 26rem),
-        radial-gradient(circle at 100% 20%,rgba(47,93,80,.16),transparent 26rem),
+        linear-gradient(135deg,rgba(47,107,89,.12),transparent 36%),
+        linear-gradient(315deg,rgba(199,119,60,.12),transparent 34%),
         var(--bg);
       line-height:1.5;
+    }
+
+    button,
+    input{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
     }
 
     header,
@@ -45,179 +54,379 @@
     }
 
     header{
-      padding-top:54px;
-      padding-bottom:24px;
+      padding-top:42px;
+      padding-bottom:20px;
     }
 
     .eyebrow{
       display:inline-flex;
-      padding:8px 12px;
+      gap:8px;
+      align-items:center;
+      padding:7px 11px;
       border-radius:999px;
       border:1px solid var(--line);
-      background:rgba(255,250,242,.78);
+      background:rgba(255,253,248,.82);
       color:var(--accent);
       font-size:13px;
-      font-weight:800;
+      font-weight:850;
     }
 
     h1{
-      max-width:850px;
-      margin:18px 0 12px;
-      font-size:clamp(38px,7vw,82px);
-      line-height:.94;
-      letter-spacing:-.07em;
+      max-width:880px;
+      margin:16px 0 12px;
+      font-size:clamp(36px,6vw,76px);
+      line-height:.98;
+      letter-spacing:0;
     }
 
     .lead{
-      max-width:780px;
+      max-width:820px;
       margin:0;
       color:var(--muted);
       font-size:18px;
     }
 
+    .top-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .action,
+    .day-tab,
+    .mini-tab,
+    .ghost-btn{
+      border:1px solid var(--line);
+      background:var(--surface);
+      color:var(--ink);
+      border-radius:999px;
+      min-height:40px;
+      padding:9px 14px;
+      font-weight:850;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+
+    .action.primary,
+    .day-tab.active,
+    .mini-tab.active{
+      background:var(--accent);
+      border-color:var(--accent);
+      color:white;
+    }
+
+    .action:hover,
+    .day-tab:hover,
+    .mini-tab:hover,
+    .ghost-btn:hover{
+      border-color:var(--accent);
+    }
+
     nav{
       position:sticky;
       top:0;
-      z-index:5;
+      z-index:10;
       backdrop-filter:blur(14px);
-      background:rgba(246,241,232,.82);
-      border-block:1px solid rgba(229,217,199,.85);
+      background:rgba(247,243,234,.88);
+      border-block:1px solid rgba(226,215,199,.9);
     }
 
     .nav-inner{
       max-width:1180px;
       margin:0 auto;
-      padding:11px 22px;
+      padding:10px 22px;
       display:flex;
       gap:10px;
       overflow-x:auto;
     }
 
-    .nav-inner a{
+    .day-tab{
       flex:0 0 auto;
-      color:var(--ink);
-      text-decoration:none;
-      font-weight:800;
-      font-size:14px;
-      border:1px solid var(--line);
-      background:var(--card);
-      padding:9px 13px;
-      border-radius:999px;
-    }
-
-    .nav-inner a:hover{
-      background:var(--accent);
-      color:white;
-      border-color:var(--accent);
+      white-space:nowrap;
     }
 
     main{
       padding-top:22px;
-      padding-bottom:64px;
+      padding-bottom:58px;
     }
 
-    .summary{
+    .dashboard{
       display:grid;
-      grid-template-columns:repeat(4,minmax(0,1fr));
-      gap:14px;
+      grid-template-columns:1.1fr .9fr;
+      gap:16px;
+      align-items:start;
       margin-bottom:18px;
     }
 
-    .summary article,
-    .day,
-    .info{
-      background:rgba(255,250,242,.9);
+    .panel,
+    .summary-card,
+    .day-view,
+    .rules{
+      background:rgba(255,253,248,.92);
       border:1px solid var(--line);
-      border-radius:28px;
-      box-shadow:0 18px 54px rgba(31,24,18,.07);
+      border-radius:18px;
+      box-shadow:var(--shadow);
     }
 
-    .summary article{
-      padding:17px;
+    .panel{
+      padding:20px;
     }
 
-    .summary strong{
-      display:block;
-      margin-bottom:4px;
+    .panel h2,
+    .rules h2{
+      margin:0 0 10px;
+      font-size:24px;
+      letter-spacing:0;
     }
 
-    .summary span{
-      color:var(--muted);
-      font-size:14px;
-    }
-
-    .info-grid{
+    .week-grid{
       display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-      margin-bottom:22px;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:10px;
     }
 
-    .info{
-      padding:22px;
-    }
-
-    .info h2{
-      margin:0 0 8px;
-      font-size:22px;
-      letter-spacing:-.03em;
-    }
-
-    .info p{
-      margin:0;
-      color:var(--muted);
-    }
-
-    .chips{
+    .summary-card{
+      padding:15px;
+      min-height:118px;
       display:flex;
-      flex-wrap:wrap;
-      gap:8px;
+      flex-direction:column;
+      justify-content:space-between;
+      box-shadow:none;
+    }
+
+    .summary-card strong{
+      display:block;
+      font-size:16px;
+    }
+
+    .summary-card span{
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .summary-card button{
+      align-self:flex-start;
+      border:0;
+      border-radius:999px;
+      background:var(--surface-2);
+      padding:7px 10px;
+      color:var(--accent-dark);
+      font-size:12px;
+      font-weight:850;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+    }
+
+    .stat{
+      background:var(--surface-2);
+      border-radius:14px;
+      padding:14px;
+    }
+
+    .stat strong{
+      display:block;
+      font-size:26px;
+      line-height:1;
+    }
+
+    .stat span{
+      color:var(--muted);
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .progress-wrap{
       margin-top:14px;
     }
 
-    .chip{
-      background:var(--soft);
-      padding:7px 10px;
-      border-radius:999px;
+    .progress-label{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      color:var(--muted);
       font-size:13px;
-      font-weight:800;
+      font-weight:750;
+      margin-bottom:7px;
     }
 
-    .day{
+    .progress-bar{
+      height:12px;
+      border-radius:999px;
+      background:var(--surface-2);
       overflow:hidden;
-      margin-top:22px;
+      border:1px solid var(--line);
+    }
+
+    .progress-fill{
+      width:0%;
+      height:100%;
+      background:linear-gradient(90deg,var(--accent),var(--warm));
+      transition:width .25s ease;
+    }
+
+    .mini-tabs{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+
+    .mini-tab{
+      min-height:36px;
+      padding:7px 12px;
+      font-size:13px;
+    }
+
+    .guide{
+      display:none;
+      margin-top:14px;
+      color:var(--muted);
+    }
+
+    .guide.active{
+      display:block;
+    }
+
+    .guide-table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:10px;
+      font-size:14px;
+    }
+
+    .guide-table th,
+    .guide-table td{
+      text-align:left;
+      padding:10px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .day-view{
+      overflow:hidden;
     }
 
     .day-head{
       display:grid;
       grid-template-columns:1fr auto;
       gap:16px;
-      padding:26px;
-      background:linear-gradient(135deg,rgba(47,93,80,.09),rgba(213,138,74,.11));
+      padding:22px;
       border-bottom:1px solid var(--line);
+      background:linear-gradient(135deg,rgba(47,107,89,.1),rgba(49,92,122,.08),rgba(199,119,60,.1));
     }
 
-    .day h2{
+    .day-head h2{
       margin:0;
       font-size:clamp(27px,4vw,42px);
-      letter-spacing:-.055em;
+      letter-spacing:0;
     }
 
     .day-desc{
-      margin:8px 0 0;
+      max-width:760px;
+      margin:7px 0 0;
       color:var(--muted);
-      max-width:720px;
+    }
+
+    .day-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:12px;
     }
 
     .tag{
-      align-self:start;
+      display:inline-flex;
+      align-items:center;
+      min-height:30px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:var(--surface);
+      color:var(--accent-dark);
+      border:1px solid var(--line);
+      font-size:13px;
+      font-weight:850;
+    }
+
+    .tag.strong{
       background:var(--accent);
       color:white;
-      padding:8px 12px;
-      border-radius:999px;
+      border-color:var(--accent);
+    }
+
+    .partner-note{
+      align-self:start;
+      max-width:280px;
+      padding:13px;
+      border-radius:14px;
+      background:rgba(255,253,248,.84);
+      color:var(--muted);
       font-size:13px;
-      font-weight:900;
-      white-space:nowrap;
+      font-weight:700;
+    }
+
+    .blocks{
+      display:grid;
+      gap:0;
+    }
+
+    details.block{
+      border-bottom:1px solid var(--line);
+      background:var(--surface);
+    }
+
+    details.block:last-child{
+      border-bottom:0;
+    }
+
+    summary{
+      list-style:none;
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:14px;
+      align-items:center;
+      padding:18px 20px;
+      cursor:pointer;
+    }
+
+    summary::-webkit-details-marker{display:none}
+
+    .block-title{
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+      align-items:center;
+    }
+
+    .block-title strong{
+      font-size:18px;
+    }
+
+    .block-title span{
+      color:var(--muted);
+      font-size:13px;
+      font-weight:750;
+    }
+
+    .chevron{
+      width:34px;
+      height:34px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      display:grid;
+      place-items:center;
+      color:var(--accent);
+      transition:transform .2s ease;
+    }
+
+    details[open] .chevron{
+      transform:rotate(90deg);
     }
 
     .exercise-grid{
@@ -225,25 +434,26 @@
       grid-template-columns:repeat(2,minmax(0,1fr));
       gap:1px;
       background:var(--line);
+      border-top:1px solid var(--line);
     }
 
     .exercise{
-      min-height:218px;
-      background:var(--card);
-      padding:18px;
+      min-height:216px;
+      background:var(--surface);
+      padding:17px;
       display:grid;
-      grid-template-columns:160px 1fr;
-      gap:16px;
+      grid-template-columns:148px 1fr;
+      gap:15px;
     }
 
     figure{
       margin:0;
-      border-radius:20px;
+      border-radius:14px;
       overflow:hidden;
       border:1px solid var(--line);
-      background:var(--soft);
+      background:var(--surface-2);
+      min-height:174px;
       position:relative;
-      min-height:178px;
     }
 
     img{
@@ -260,22 +470,16 @@
       place-items:center;
       text-align:center;
       padding:12px;
-      color:var(--accent);
+      color:var(--accent-dark);
       font-weight:900;
-      background:repeating-linear-gradient(
-        135deg,
-        #f7ecde,
-        #f7ecde 11px,
-        #eedfca 11px,
-        #eedfca 22px
-      );
+      background:repeating-linear-gradient(135deg,#f7efe2,#f7efe2 11px,#eadcc9 11px,#eadcc9 22px);
     }
 
     h3{
       margin:0 0 8px;
       font-size:19px;
-      line-height:1.1;
-      letter-spacing:-.035em;
+      line-height:1.16;
+      letter-spacing:0;
     }
 
     .meta{
@@ -286,7 +490,7 @@
     }
 
     .meta span{
-      background:var(--soft);
+      background:var(--surface-2);
       border-radius:999px;
       padding:6px 9px;
       font-size:12px;
@@ -295,46 +499,77 @@
 
     .cue{
       margin:0;
-      font-size:14px;
       color:var(--muted);
+      font-size:14px;
     }
 
-    .alt{
-      margin-top:10px;
+    .exercise-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+      margin-top:12px;
+      align-items:center;
+    }
+
+    .done{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      min-height:38px;
+      border-radius:999px;
+      background:var(--surface-2);
+      padding:7px 11px;
       font-size:13px;
-      color:var(--accent);
-      font-weight:900;
+      font-weight:850;
+    }
+
+    .done input{
+      width:16px;
+      height:16px;
+      accent-color:var(--accent);
     }
 
     .demo-link{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      margin-top:12px;
-      padding:9px 12px;
+      min-height:38px;
       border-radius:999px;
       background:var(--accent);
       color:white;
       text-decoration:none;
+      padding:8px 12px;
       font-size:13px;
       font-weight:900;
     }
 
     .demo-link:hover{
-      background:#203f37;
+      background:var(--accent-dark);
+    }
+
+    .alt{
+      margin-top:9px;
+      color:var(--accent-dark);
+      font-size:13px;
+      font-weight:850;
+    }
+
+    .rules{
+      margin-top:18px;
+      padding:20px;
     }
 
     .rules-grid{
       display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:12px;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:10px;
       margin-top:14px;
     }
 
     .rule{
-      background:var(--soft);
-      border-radius:22px;
-      padding:16px;
+      background:var(--surface-2);
+      border-radius:14px;
+      padding:14px;
     }
 
     .rule strong{
@@ -347,37 +582,43 @@
       font-size:14px;
     }
 
+    .hidden{display:none}
+
     footer{
-      padding-bottom:42px;
+      padding-bottom:38px;
       color:var(--muted);
       font-size:13px;
     }
 
     footer a{
       color:var(--accent);
-      font-weight:800;
+      font-weight:850;
     }
 
-    @media(max-width:960px){
-      .summary,
-      .info-grid,
+    @media(max-width:980px){
+      .dashboard,
       .exercise-grid,
       .rules-grid{
         grid-template-columns:1fr;
       }
 
-      .exercise{
-        grid-template-columns:140px 1fr;
+      .week-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
       }
     }
 
-    @media(max-width:620px){
+    @media(max-width:660px){
       header{
-        padding-top:38px;
+        padding-top:34px;
       }
 
-      .day-head{
+      .day-head,
+      summary{
         grid-template-columns:1fr;
+      }
+
+      .partner-note{
+        max-width:none;
       }
 
       .exercise{
@@ -385,12 +626,21 @@
       }
 
       figure{
-        height:245px;
+        height:230px;
+      }
+
+      .week-grid,
+      .stats{
+        grid-template-columns:1fr;
       }
     }
 
     @media print{
-      nav{
+      nav,
+      .top-actions,
+      .exercise-actions,
+      .mini-tabs,
+      .summary-card button{
         display:none;
       }
 
@@ -398,9 +648,22 @@
         background:white;
       }
 
-      .day,
-      .info,
-      .summary article{
+      .hidden{
+        display:block;
+      }
+
+      details.block{
+        display:block;
+      }
+
+      details.block:not([open]) .exercise-grid{
+        display:grid;
+      }
+
+      .panel,
+      .summary-card,
+      .day-view,
+      .rules{
         box-shadow:none;
         break-inside:avoid;
       }
@@ -410,464 +673,527 @@
 
 <body>
   <header>
-    <span class="eyebrow">Rutina para pareja · 4 días · principiante/intermedio</span>
-    <h1>Superior / inferior, funcional y sin vivir en el gym</h1>
+    <span class="eyebrow">Upper / Lower · 4 dias · en pareja</span>
+    <h1>Rutina interactiva para entrenar sin perderse entre bloques</h1>
     <p class="lead">
-      Plan de 45 a 60 minutos por sesión. Ambos pueden hacer la misma estructura y ajustar únicamente la carga.
-      La prioridad es técnica, constancia y progresión simple.
+      Martes, jueves, sabado y domingo. Volumen moderado, tecnica primero, superseries utiles en tren superior
+      y progresion clara para empezar con cabeza.
     </p>
+
+    <div class="top-actions">
+      <button class="action primary" id="todayBtn" type="button">Ver proximo dia</button>
+      <button class="action" id="expandBtn" type="button">Abrir bloques</button>
+      <button class="action" id="resetBtn" type="button">Reiniciar checks</button>
+    </div>
   </header>
 
-  <nav>
-    <div class="nav-inner">
-      <a href="#semana">Semana</a>
-      <a href="#superior-a">Superior A</a>
-      <a href="#inferior-a">Inferior A</a>
-      <a href="#superior-b">Superior B</a>
-      <a href="#inferior-b">Inferior B</a>
-      <a href="#reglas">Reglas</a>
-    </div>
+  <nav aria-label="Navegacion de dias">
+    <div class="nav-inner" id="dayTabs"></div>
   </nav>
 
   <main>
-    <section class="summary" aria-label="Resumen">
-      <article>
-        <strong>Frecuencia</strong>
-        <span>4 días por semana</span>
+    <section class="dashboard" id="semana">
+      <article class="panel">
+        <h2>Semana</h2>
+        <div class="week-grid" id="weekGrid"></div>
       </article>
 
-      <article>
-        <strong>Duración</strong>
-        <span>45–60 minutos</span>
-      </article>
+      <article class="panel">
+        <h2>Control rapido</h2>
+        <div class="stats">
+          <div class="stat">
+            <strong id="doneCount">0</strong>
+            <span>ejercicios marcados</span>
+          </div>
+          <div class="stat">
+            <strong id="dayCount">0/0</strong>
+            <span>del dia activo</span>
+          </div>
+        </div>
 
-      <article>
-        <strong>Descanso</strong>
-        <span>60–90 segundos</span>
-      </article>
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span>Progreso del dia</span>
+            <span id="progressText">0%</span>
+          </div>
+          <div class="progress-bar" aria-hidden="true">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
 
-      <article>
-        <strong>Intensidad</strong>
-        <span>1–3 reps en reserva</span>
-      </article>
-    </section>
+        <div class="mini-tabs" role="tablist" aria-label="Guias">
+          <button class="mini-tab active" type="button" data-guide="estructura">Estructura</button>
+          <button class="mini-tab" type="button" data-guide="progresion">Progresion</button>
+          <button class="mini-tab" type="button" data-guide="intensidad">Intensidad</button>
+        </div>
 
-    <section class="info-grid" id="semana">
-      <article class="info">
-        <h2>Distribución sugerida</h2>
-        <p>
-          <strong>Lunes:</strong> Superior A ·
-          <strong>Martes:</strong> Inferior A ·
-          <strong>Jueves:</strong> Superior B ·
-          <strong>Sábado:</strong> Inferior B + funcional.
-          Miércoles y viernes pueden ser descanso o caminata suave.
-        </p>
+        <div class="guide active" id="guide-estructura">
+          60-75 minutos. La mayoria de ejercicios van en 8-12 reps, con 60-90 segundos de descanso o mientras tu pareja hace su serie.
+        </div>
 
-        <div class="chips">
-          <span class="chip">Pecho</span>
-          <span class="chip">Espalda</span>
-          <span class="chip">Pierna</span>
-          <span class="chip">Glúteo</span>
-          <span class="chip">Core</span>
-          <span class="chip">Funcional</span>
+        <div class="guide" id="guide-progresion">
+          Cuando completes todas las series en el rango alto con tecnica limpia, sube un poco el peso la proxima vez.
+          <table class="guide-table">
+            <tr><th>Semana</th><th>Como entrenar</th></tr>
+            <tr><td>1</td><td>2 series por ejercicio, peso comodo</td></tr>
+            <tr><td>2</td><td>2 series, mejora tecnica</td></tr>
+            <tr><td>3</td><td>3 series en ejercicios principales</td></tr>
+            <tr><td>4</td><td>3 series, sube peso solo si la tecnica esta limpia</td></tr>
+          </table>
+        </div>
+
+        <div class="guide" id="guide-intensidad">
+          Quedate casi siempre en "correcto" o "duro pero limpio": deberian quedar 2-3 repeticiones en reserva la mayor parte del tiempo.
         </div>
       </article>
-
-      <article class="info">
-        <h2>Calentamiento express</h2>
-        <p>
-          5 minutos de caminata, bici o elíptica suave. Luego 10 sentadillas sin peso,
-          10 bisagras de cadera, 10 círculos de hombro y una serie liviana del primer ejercicio.
-        </p>
-      </article>
     </section>
 
-    <div id="days"></div>
+    <section class="day-view" id="routine" aria-live="polite"></section>
 
-    <section class="info" id="reglas" style="margin-top:22px">
-      <h2>Reglas rápidas para progresar</h2>
-      <p>
-        La rutina funciona si se repite con buena técnica y pequeñas mejoras.
-        No hace falta reinventarla cada semana.
-      </p>
-
+    <section class="rules" id="reglas">
+      <h2>Reglas rapidas</h2>
       <div class="rules-grid">
         <div class="rule">
-          <strong>Peso correcto</strong>
-          <span>La última serie debe sentirse retadora, pero todavía podrían hacer 1–3 repeticiones más.</span>
+          <strong>Tecnica primero</strong>
+          <span>Si la ultima repeticion cambia la forma, ese peso ya esta hablando demasiado duro.</span>
         </div>
-
         <div class="rule">
-          <strong>Progresión</strong>
-          <span>Cuando logren el rango alto de reps con buena técnica, suban un poco el peso la próxima sesión.</span>
+          <strong>Pierna sin drama</strong>
+          <span>En lower se turnan mas de lo que supersetearian. Sentadilla + peso muerto no es el combo inicial.</span>
         </div>
-
         <div class="rule">
-          <strong>Versión rápida</strong>
-          <span>Si tienen afán, hagan los 4 primeros ejercicios del día y cierren con core o cardio corto.</span>
+          <strong>En pareja</strong>
+          <span>Superior funciona perfecto con empuje + jalon y biceps + triceps.</span>
+        </div>
+        <div class="rule">
+          <strong>Sin fallo</strong>
+          <span>Por ahora no hace falta llegar al fallo. El objetivo es repetir bien, no sobrevivir.</span>
         </div>
       </div>
     </section>
   </main>
 
   <footer>
-    Imágenes de referencia tomadas de
+    Imagenes de referencia tomadas de
     <a href="https://github.com/yuhonas/free-exercise-db" target="_blank" rel="noreferrer">Free Exercise DB</a>.
-    Los botones de técnica abren búsquedas en YouTube para encontrar demostraciones actualizadas.
-    Úsenlas como guía visual general; ante dolor, lesión o una condición médica,
-    ajusten con un entrenador o profesional de salud.
+    Los enlaces abren busquedas de tecnica en YouTube. Ante dolor, lesion o condicion medica, ajusten con un entrenador o profesional de salud.
   </footer>
 
   <script>
     const base = "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/";
-
-    function youtubeLink(exerciseName){
-      const cleanName = exerciseName
-        .replace(" o máquina", "")
-        .replace(" o barra", "")
-        .replace(" o prensa", "")
-        .replace(" o dominada asistida", "")
-        .replace(" o crunch en máquina", "")
-        .replace(" o puente de glúteo", "")
-        .replace(" con mancuernas", "")
-        .replace(" con mancuernas o máquina", "")
-        .replace(" con mancuernas o barra", "")
-        .replace(" con kettlebell o mancuernas", "")
-        .replace("Sentadilla goblet, sentadilla en máquina o prensa", "Sentadilla goblet")
-        .replace("Abducción de cadera o patada de glúteo", "Abducción de cadera")
-        .trim();
-
-      return "https://www.youtube.com/results?search_query=" +
-        encodeURIComponent(cleanName + " técnica correcta gimnasio");
-    }
+    const storageKey = "upper-lower-couple-checks-v1";
 
     const days = [
       {
-        id: "superior-a",
-        title: "Día 1 · Tren superior A",
-        tag: "45–60 min",
-        desc: "Enfoque en pecho, espalda y fuerza general del torso. Ideal para hacer superseries y ahorrar tiempo.",
-        exercises: [
-          [
-            "Press de pecho con mancuernas o máquina",
-            "3 series",
-            "8–12 reps",
-            "Pecho",
-            "Dumbbell_Bench_Press/0.jpg",
-            "Baja controlado, codos a 45° y empuja sin despegar la espalda del banco.",
-            "Alternativa: press en máquina."
-          ],
-          [
-            "Remo sentado en polea o máquina",
-            "3 series",
-            "8–12 reps",
-            "Espalda",
-            "Seated_Cable_Rows/0.jpg",
-            "Lleva los codos atrás, junta escápulas y evita balancear el torso.",
-            "Superserie con press de pecho."
-          ],
-          [
-            "Press militar con mancuernas",
-            "3 series",
-            "8–10 reps",
-            "Hombro",
-            "Dumbbell_Shoulder_Press/0.jpg",
-            "Costillas abajo, abdomen firme y empuja vertical sin arquear la espalda.",
-            "Alternativa: máquina de hombro."
-          ],
-          [
-            "Jalón al pecho",
-            "3 series",
-            "10–12 reps",
-            "Dorsal",
-            "Wide-Grip_Lat_Pulldown/0.jpg",
-            "Lleva la barra hacia la parte alta del pecho, sin jalar detrás del cuello.",
-            "Superserie con press militar."
-          ],
-          [
-            "Elevaciones laterales",
-            "2–3 series",
-            "12–15 reps",
-            "Hombro",
-            "Side_Lateral_Raise/0.jpg",
-            "Peso moderado, sube hasta línea de hombros y evita impulsarte.",
-            "Si molesta: hacerlas en polea o máquina."
-          ],
-          [
-            "Curl de bíceps con mancuernas",
-            "2–3 series",
-            "10–12 reps",
-            "Bíceps",
-            "Dumbbell_Alternate_Bicep_Curl/0.jpg",
-            "Codos quietos, muñeca neutra y baja lento.",
-            "Superserie con tríceps."
-          ],
-          [
-            "Extensión de tríceps en cuerda",
-            "2–3 series",
-            "10–12 reps",
-            "Tríceps",
-            "Triceps_Pushdown_-_Rope_Attachment/0.jpg",
-            "Codos pegados al cuerpo, abre la cuerda abajo y controla la subida.",
-            "Alternativa: barra recta en polea."
-          ]
+        id:"superior-a",
+        weekday:"Martes",
+        title:"Tren superior A",
+        focus:"Pecho, espalda, hombro y brazos",
+        duration:"60-75 min",
+        partner:"Superseries de empuje + jalon. Uno hace press, el otro remo o jalon; cambian y descansan.",
+        warmup:"5-8 min caminadora, bici o remo suave. Luego rotaciones de hombro, band pull-aparts o face pulls suaves y 1-2 series livianas del primer ejercicio.",
+        blocks:[
+          {
+            name:"Bloque 1",
+            focus:"Pecho + espalda",
+            pair:"Press y remo en pareja",
+            exercises:[
+              ["Press de pecho en maquina o mancuernas","3 series","8-12 reps","Pecho","Dumbbell_Bench_Press/0.jpg","Baja controlado, codos a 45 grados y empuja sin despegar la espalda del banco.","Alternativa: press de pecho en maquina."],
+              ["Remo sentado en polea","3 series","8-12 reps","Espalda","Seated_Cable_Rows/0.jpg","Lleva los codos atras, junta escapulas y evita balancear el torso.","Cambian estaciones con el press."]
+            ]
+          },
+          {
+            name:"Bloque 2",
+            focus:"Espalda vertical + pecho inclinado",
+            pair:"Jalon + press",
+            exercises:[
+              ["Jalon al pecho","3 series","8-12 reps","Dorsal","Wide-Grip_Lat_Pulldown/0.jpg","Lleva la barra hacia la parte alta del pecho, sin jalar detras del cuello.","Piensa en bajar los codos."],
+              ["Press inclinado con mancuernas o maquina","3 series","8-12 reps","Pecho alto","Incline_Dumbbell_Press/0.jpg","Banco entre 30 y 45 grados, baja controlado y no cierres demasiado los codos.","Alternativa: maquina de press inclinado."]
+            ]
+          },
+          {
+            name:"Bloque 3",
+            focus:"Hombro + espalda alta",
+            pair:"Control y postura",
+            exercises:[
+              ["Press de hombro con mancuernas o maquina","2-3 series","8-12 reps","Hombro","Dumbbell_Shoulder_Press/0.jpg","Costillas abajo, abdomen firme y empuja vertical sin arquear la espalda.","Empieza liviano para cuidar el rango."],
+              ["Face pull","2-3 series","12-15 reps","Espalda alta","Face_Pull/0.jpg","Jala hacia la cara, separa manos y manten codos altos.","Clave para hombros sanos."]
+            ]
+          },
+          {
+            name:"Bloque 4",
+            focus:"Brazos",
+            pair:"Biceps + triceps",
+            exercises:[
+              ["Curl de biceps con mancuernas","2 series","10-15 reps","Biceps","Dumbbell_Alternate_Bicep_Curl/0.jpg","Codos quietos, muneca neutra y baja lento.","Sin balancear el torso."],
+              ["Extension de triceps en polea","2 series","10-15 reps","Triceps","Triceps_Pushdown_-_Rope_Attachment/0.jpg","Codos pegados al cuerpo, extiende y controla la subida.","Alternativa: cuerda o barra recta."]
+            ]
+          }
         ]
       },
       {
-        id: "inferior-a",
-        title: "Día 2 · Tren inferior A",
-        tag: "Fuerte",
-        desc: "Pierna completa, glúteo, femoral y core. Este día construye la base.",
-        exercises: [
-          [
-            "Sentadilla goblet, sentadilla en máquina o prensa",
-            "3 series",
-            "8–12 reps",
-            "Cuádriceps",
-            "Goblet_Squat/0.jpg",
-            "Pecho arriba, rodillas siguen la línea de los pies y baja hasta donde controles.",
-            "Alternativa rápida: prensa."
-          ],
-          [
-            "Peso muerto rumano con mancuernas o barra",
-            "3 series",
-            "8–10 reps",
-            "Femoral",
-            "Romanian_Deadlift/0.jpg",
-            "Cadera atrás, espalda neutra y siente el estiramiento en femoral, no en zona lumbar.",
-            "Empieza con mancuernas si están ajustando técnica."
-          ],
-          [
-            "Hip thrust",
-            "3 series",
-            "10–12 reps",
-            "Glúteo",
-            "Barbell_Hip_Thrust/0.jpg",
-            "Mentón ligeramente abajo, pelvis estable y aprieta glúteo arriba sin hiperextender.",
-            "Alternativa: puente de glúteo en piso."
-          ],
-          [
-            "Zancadas o split squat",
-            "2–3 series",
-            "8–10 por pierna",
-            "Unilateral",
-            "Dumbbell_Lunges/0.jpg",
-            "Paso estable, torso firme y empuja desde el talón de la pierna delantera.",
-            "Si hay poco espacio: split squat fijo."
-          ],
-          [
-            "Curl femoral en máquina",
-            "2–3 series",
-            "10–12 reps",
-            "Femoral",
-            "Lying_Leg_Curls/0.jpg",
-            "Controla la bajada y no levantes la cadera del banco.",
-            "Alternativa: curl femoral sentado."
-          ],
-          [
-            "Plancha",
-            "3 series",
-            "30–45 seg",
-            "Core",
-            "Plank/0.jpg",
-            "Glúteos y abdomen activos; cuerpo en línea recta. Si tiembla, está saludando.",
-            "Final: 8–10 min de caminata inclinada."
-          ]
+        id:"inferior-a",
+        weekday:"Jueves",
+        title:"Tren inferior A",
+        focus:"Cuadriceps, gluteo, femoral y core",
+        duration:"60-75 min",
+        partner:"En pierna se turnan con calma. Mejor calidad de serie que superseries salvajes.",
+        warmup:"5-8 min de bici o caminadora inclinada. Luego movilidad de cadera, sentadilla sin peso y activacion de gluteo con banda si hay.",
+        blocks:[
+          {
+            name:"Bloque 1",
+            focus:"Ejercicio principal",
+            pair:"Uno trabaja, el otro descansa o prepara peso",
+            exercises:[
+              ["Prensa o sentadilla goblet","3 series","8-12 reps","Cuadriceps","Goblet_Squat/0.jpg","Pecho arriba, rodillas siguen la linea de los pies y baja hasta donde controles.","Si quieren simple: prensa."]
+            ]
+          },
+          {
+            name:"Bloque 2",
+            focus:"Gluteo + core",
+            pair:"Hip thrust + dead bug",
+            exercises:[
+              ["Hip thrust","3 series","8-12 reps","Gluteo","Barbell_Hip_Thrust/0.jpg","Mentón ligeramente abajo, pelvis estable y aprieta gluteo arriba sin hiperextender.","Alternativa: puente de gluteo en piso."],
+              ["Dead bug","3 series","8-10 por lado","Core","Dead_Bug/0.jpg","Zona lumbar pegada al piso y movimiento lento. Si se arquea, reduce rango.","Buen descanso activo entre series pesadas."]
+            ]
+          },
+          {
+            name:"Bloque 3",
+            focus:"Femoral + pantorrilla",
+            pair:"Maquinas faciles de alternar",
+            exercises:[
+              ["Curl femoral en maquina","3 series","10-12 reps","Femoral","Lying_Leg_Curls/0.jpg","Controla la bajada y no levantes la cadera del banco.","Alternativa: curl femoral sentado."],
+              ["Elevacion de pantorrilla","3 series","12-15 reps","Pantorrilla","Standing_Calf_Raises/0.jpg","Pausa arriba, baja controlado y usa recorrido completo.","No rebotes."]
+            ]
+          },
+          {
+            name:"Bloque 4",
+            focus:"Funcional",
+            pair:"Core, agarre y postura",
+            exercises:[
+              ["Farmer carry o caminata con mancuernas","3 series","30-45 seg","Funcional","Farmers_Walk/0.jpg","Hombros abajo, abdomen firme, pasos cortos y postura alta.","Muy bueno para fuerza util."]
+            ]
+          }
         ]
       },
       {
-        id: "superior-b",
-        title: "Día 3 · Tren superior B",
-        tag: "Postura",
-        desc: "Más énfasis en espalda, hombro y postura. Muy útil si trabajan muchas horas sentados.",
-        exercises: [
-          [
-            "Jalón al pecho o dominada asistida",
-            "3 series",
-            "8–12 reps",
-            "Dorsal",
-            "Wide-Grip_Lat_Pulldown/1.jpg",
-            "Piensa en bajar los codos, no solo la barra. Cuello relajado.",
-            "Alternativa: dominada asistida."
-          ],
-          [
-            "Press inclinado con mancuernas o máquina",
-            "3 series",
-            "8–12 reps",
-            "Pecho alto",
-            "Incline_Dumbbell_Press/0.jpg",
-            "Banco entre 30° y 45°, baja controlado y no cierres demasiado los codos.",
-            "Alternativa: máquina de press inclinado."
-          ],
-          [
-            "Remo con mancuerna o máquina",
-            "3 series",
-            "10–12 reps",
-            "Espalda",
-            "One-Arm_Dumbbell_Row/0.jpg",
-            "Tira hacia la cadera, no hacia el hombro. Espalda estable.",
-            "Alternativa: remo pecho apoyado."
-          ],
-          [
-            "Face pulls en polea",
-            "3 series",
-            "12–15 reps",
-            "Deltoide posterior",
-            "Face_Pull/0.jpg",
-            "Jala hacia la cara, separa manos y mantén codos altos.",
-            "Clave para hombros sanos y postura."
-          ],
-          [
-            "Elevaciones laterales",
-            "3 series",
-            "12–15 reps",
-            "Hombro",
-            "Side_Lateral_Raise/1.jpg",
-            "Control antes que peso. El ego aquí pesa más que la mancuerna.",
-            "Pueden hacerlas al final en dropset suave."
-          ],
-          [
-            "Curl martillo",
-            "2–3 series",
-            "10–12 reps",
-            "Bíceps/antebrazo",
-            "Alternate_Hammer_Curl/0.jpg",
-            "Palmas enfrentadas y codos quietos. Sube fuerte, baja lento.",
-            "Superserie con tríceps."
-          ],
-          [
-            "Tríceps en polea",
-            "2–3 series",
-            "10–12 reps",
-            "Tríceps",
-            "Triceps_Pushdown/0.jpg",
-            "Bloquea codos cerca del cuerpo y controla todo el recorrido.",
-            "Alternativa: fondos asistidos."
-          ],
-          [
-            "Dead bug o crunch en máquina",
-            "3 series",
-            "10–15 reps",
-            "Core",
-            "Dead_Bug/0.jpg",
-            "Zona lumbar pegada al piso y movimiento lento. Si se arquea, reduce rango.",
-            "Alternativa: crunch en polea o máquina."
-          ]
+        id:"superior-b",
+        weekday:"Sabado",
+        title:"Tren superior B",
+        focus:"Espalda, pecho, hombro lateral y brazos",
+        duration:"60-75 min",
+        partner:"Otro dia muy bueno para alternar estaciones: espalda + pecho, jalon + empuje y biceps + triceps.",
+        warmup:"5-8 min suave. Luego movilidad de hombro, face pulls livianos y una serie facil del primer remo.",
+        blocks:[
+          {
+            name:"Bloque 1",
+            focus:"Espalda + pecho",
+            pair:"Remo + press",
+            exercises:[
+              ["Remo con pecho apoyado o remo en maquina","3 series","8-12 reps","Espalda","Seated_Cable_Rows/1.jpg","Tira hacia la cadera, manten el pecho apoyado o el torso estable.","Evita convertirlo en jalon de cuerpo completo."],
+              ["Press de pecho con mancuernas","3 series","8-12 reps","Pecho","Dumbbell_Bench_Press/1.jpg","Baja controlado, empuja fuerte y manten hombros estables.","Ajusten carga por persona."]
+            ]
+          },
+          {
+            name:"Bloque 2",
+            focus:"Jalon + empuje",
+            pair:"Vertical + press/flexion",
+            exercises:[
+              ["Jalon agarre neutro o dominada asistida","3 series","8-12 reps","Dorsal","Close-Grip_Front_Lat_Pulldown/0.jpg","Cuello relajado, pecho alto y codos hacia abajo.","Dominada asistida si se sienten comodos."],
+              ["Flexiones inclinadas o press en maquina","3 series","8-12 reps","Pecho","Pushups/0.jpg","Manos firmes, cuerpo en linea y baja solo hasta donde controles.","Cero ego: inclinadas en banco valen perfecto."]
+            ]
+          },
+          {
+            name:"Bloque 3",
+            focus:"Hombro",
+            pair:"Lateral + posterior",
+            exercises:[
+              ["Elevaciones laterales","3 series","12-15 reps","Hombro lateral","Side_Lateral_Raise/0.jpg","Peso moderado, sube hasta linea de hombros y evita impulsarte.","Control antes que peso."],
+              ["Pajaros, reverse fly o face pull","3 series","12-15 reps","Deltoide posterior","Reverse_Flyes/0.jpg","Abre con control y piensa en mover los codos, no las manos.","Face pull si la maquina esta ocupada."]
+            ]
+          },
+          {
+            name:"Bloque 4",
+            focus:"Brazos",
+            pair:"Curl martillo + triceps",
+            exercises:[
+              ["Curl martillo","2 series","10-15 reps","Biceps/antebrazo","Alternate_Hammer_Curl/0.jpg","Palmas enfrentadas y codos quietos. Sube fuerte, baja lento.","Superserie con triceps."],
+              ["Fondos asistidos o triceps en cuerda","2 series","10-15 reps","Triceps","Triceps_Pushdown_-_Rope_Attachment/1.jpg","Controla todo el recorrido y no dejes que los hombros se vayan hacia adelante.","Usa cuerda si los fondos molestan."]
+            ]
+          }
         ]
       },
       {
-        id: "inferior-b",
-        title: "Día 4 · Tren inferior B + funcional",
-        tag: "Funcional",
-        desc: "Glúteo, pierna, estabilidad y condición física. Día más dinámico, sin convertirlo en castigo romano.",
-        exercises: [
-          [
-            "Hip thrust o puente de glúteo",
-            "3 series",
-            "8–12 reps",
-            "Glúteo",
-            "Barbell_Hip_Thrust/1.jpg",
-            "Pausa 1 segundo arriba. Que trabaje el glúteo, no la espalda baja.",
-            "Alternativa: puente con mancuerna."
-          ],
-          [
-            "Prensa",
-            "3 series",
-            "10–12 reps",
-            "Pierna",
-            "Leg_Press/0.jpg",
-            "No bloquees rodillas arriba y baja hasta donde mantengas la cadera estable.",
-            "Pies medios para pierna general."
-          ],
-          [
-            "Peso muerto con kettlebell o mancuernas",
-            "3 series",
-            "10 reps",
-            "Bisagra",
-            "Kettlebell_Deadlift/0.jpg",
-            "Empuja el piso, cadera atrás y espalda neutra. Movimiento simple, efectivo y poco dramático.",
-            "Alternativa: rumano liviano."
-          ],
-          [
-            "Step-ups en banco",
-            "2–3 series",
-            "10 por pierna",
-            "Estabilidad",
-            "Dumbbell_Step_Ups/0.jpg",
-            "Sube empujando con la pierna de arriba, no rebotando con la de abajo.",
-            "Altura moderada al inicio."
-          ],
-          [
-            "Abducción de cadera o patada de glúteo",
-            "3 series",
-            "12–15 reps",
-            "Glúteo medio",
-            "Glute_Kickback/0.jpg",
-            "Controla la cadera y evita compensar con la espalda.",
-            "Alternativa: banda elástica lateral."
-          ],
-          [
-            "Farmer’s carry",
-            "3 series",
-            "30–40 seg",
-            "Funcional",
-            "Farmers_Walk/0.jpg",
-            "Camina con mancuernas pesadas, hombros abajo, abdomen firme y pasos cortos.",
-            "Final: 8–12 min de bici, remo o caminata inclinada."
-          ]
+        id:"inferior-b",
+        weekday:"Domingo",
+        title:"Tren inferior B",
+        focus:"Femoral, gluteo, unilateral y core",
+        duration:"55-70 min",
+        partner:"Un poco menos pesado que el jueves. Vienes del sabado y manana arranca la semana.",
+        warmup:"5-8 min suave. Luego bisagras de cadera sin peso, movilidad de cadera y una serie liviana de rumano.",
+        blocks:[
+          {
+            name:"Bloque 1",
+            focus:"Bisagra de cadera",
+            pair:"Tecnica por encima de peso",
+            exercises:[
+              ["Peso muerto rumano con mancuernas","3 series","8-10 reps","Femoral/gluteo","Romanian_Deadlift/0.jpg","Espalda neutra, cadera atras, mancuernas cerca del cuerpo y control total.","Siente femoral, no zona lumbar."]
+            ]
+          },
+          {
+            name:"Bloque 2",
+            focus:"Unilateral + core",
+            pair:"Pierna + plancha lateral",
+            exercises:[
+              ["Split squat, zancada estatica o step-up","3 series","8-10 por pierna","Unilateral","Dumbbell_Lunges/0.jpg","Torso firme, paso estable y empuja desde la pierna delantera.","Elige la variante mas controlable."],
+              ["Plancha lateral","3 series","25-40 seg por lado","Core","Side_Plank/0.jpg","Cadera alta, cuerpo alineado y respiracion estable.","Reduce tiempo si se pierde postura."]
+            ]
+          },
+          {
+            name:"Bloque 3",
+            focus:"Cuadriceps + gluteo",
+            pair:"Maquina + aislamiento",
+            exercises:[
+              ["Extension de cuadriceps","2-3 series","10-15 reps","Cuadriceps","Leg_Extensions/0.jpg","Sube controlado, pausa breve y baja sin soltar el peso.","Sin bloquear agresivamente la rodilla."],
+              ["Patada de gluteo en polea o maquina","2-3 series","10-15 reps","Gluteo","Glute_Kickback/0.jpg","Cadera estable, abdomen firme y movimiento controlado.","No compenses con la espalda."]
+            ]
+          },
+          {
+            name:"Bloque 4",
+            focus:"Final suave",
+            pair:"Cerrar bien",
+            exercises:[
+              ["Caminata inclinada o bici suave","1 serie","10-15 min","Cardio suave","Treadmill_Walking/0.jpg","Ritmo conversacional. No tiene que ser cardio asesino.","Solo cerrar la sesion."]
+            ]
+          }
         ]
       }
     ];
 
-    document.querySelector("#days").innerHTML = days.map(day => `
-      <section class="day" id="${day.id}">
+    let activeDay = days[0].id;
+    let checks = JSON.parse(localStorage.getItem(storageKey) || "{}");
+
+    const dayTabs = document.querySelector("#dayTabs");
+    const weekGrid = document.querySelector("#weekGrid");
+    const routine = document.querySelector("#routine");
+    const doneCount = document.querySelector("#doneCount");
+    const dayCount = document.querySelector("#dayCount");
+    const progressText = document.querySelector("#progressText");
+    const progressFill = document.querySelector("#progressFill");
+
+    function youtubeLink(exerciseName){
+      const cleanName = exerciseName
+        .replace(" en maquina", "")
+        .replace(" o maquina", "")
+        .replace(" o mancuernas", "")
+        .replace(" con mancuernas", "")
+        .replace(" o dominada asistida", "")
+        .replace(" o press en maquina", "")
+        .replace(" o triceps en cuerda", "")
+        .replace("Split squat, zancada estatica o step-up", "split squat")
+        .replace("Prensa o sentadilla goblet", "sentadilla goblet")
+        .replace("Pajaros, reverse fly o face pull", "reverse fly")
+        .trim();
+
+      return "https://www.youtube.com/results?search_query=" +
+        encodeURIComponent(cleanName + " tecnica correcta gimnasio");
+    }
+
+    function allExercises(day){
+      return day.blocks.flatMap(block => block.exercises);
+    }
+
+    function exerciseId(day, blockIndex, exerciseIndex){
+      return `${day.id}-${blockIndex}-${exerciseIndex}`;
+    }
+
+    function saveChecks(){
+      localStorage.setItem(storageKey, JSON.stringify(checks));
+    }
+
+    function renderTabs(){
+      dayTabs.innerHTML = days.map(day => `
+        <button class="day-tab ${day.id === activeDay ? "active" : ""}" type="button" data-day="${day.id}">
+          ${day.weekday} · ${day.title.replace("Tren ", "")}
+        </button>
+      `).join("");
+    }
+
+    function renderWeek(){
+      weekGrid.innerHTML = days.map(day => `
+        <article class="summary-card">
+          <div>
+            <strong>${day.weekday}</strong>
+            <span>${day.title}: ${day.focus}</span>
+          </div>
+          <button type="button" data-day="${day.id}">Abrir</button>
+        </article>
+      `).join("");
+    }
+
+    function renderRoutine(){
+      const day = days.find(item => item.id === activeDay);
+      routine.innerHTML = `
         <div class="day-head">
           <div>
-            <h2>${day.title}</h2>
-            <p class="day-desc">${day.desc}</p>
+            <h2>${day.weekday} · ${day.title}</h2>
+            <p class="day-desc">${day.focus}. ${day.warmup}</p>
+            <div class="day-meta">
+              <span class="tag strong">${day.duration}</span>
+              <span class="tag">2-3 series</span>
+              <span class="tag">8-12 reps base</span>
+              <span class="tag">2-3 reps en reserva</span>
+            </div>
           </div>
-          <span class="tag">${day.tag}</span>
+          <div class="partner-note">${day.partner}</div>
         </div>
 
-        <div class="exercise-grid">
-          ${day.exercises.map(ex => `
-            <article class="exercise">
-              <figure>
-                <img
-                  src="${base}${ex[4]}"
-                  alt="Referencia visual: ${ex[0]}"
-                  loading="lazy"
-                  onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"
-                >
-                <div class="fallback">${ex[0]}</div>
-              </figure>
-
-              <div>
-                <h3>${ex[0]}</h3>
-
-                <div class="meta">
-                  <span>${ex[1]}</span>
-                  <span>${ex[2]}</span>
-                  <span>${ex[3]}</span>
+        <div class="blocks">
+          ${day.blocks.map((block, blockIndex) => `
+            <details class="block" open>
+              <summary>
+                <div class="block-title">
+                  <strong>${block.name}: ${block.focus}</strong>
+                  <span>${block.pair}</span>
                 </div>
+                <span class="chevron">›</span>
+              </summary>
 
-                <p class="cue">${ex[5]}</p>
-                <div class="alt">${ex[6]}</div>
+              <div class="exercise-grid">
+                ${block.exercises.map((ex, exerciseIndex) => {
+                  const id = exerciseId(day, blockIndex, exerciseIndex);
+                  return `
+                    <article class="exercise">
+                      <figure>
+                        <img
+                          src="${base}${ex[4]}"
+                          alt="Referencia visual: ${ex[0]}"
+                          loading="lazy"
+                          onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"
+                        >
+                        <div class="fallback">${ex[0]}</div>
+                      </figure>
 
-                <a
-                  class="demo-link"
-                  href="${youtubeLink(ex[0])}"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Ver técnica en YouTube
-                </a>
+                      <div>
+                        <h3>${ex[0]}</h3>
+                        <div class="meta">
+                          <span>${ex[1]}</span>
+                          <span>${ex[2]}</span>
+                          <span>${ex[3]}</span>
+                        </div>
+                        <p class="cue">${ex[5]}</p>
+                        <div class="alt">${ex[6]}</div>
+                        <div class="exercise-actions">
+                          <label class="done">
+                            <input type="checkbox" data-check="${id}" ${checks[id] ? "checked" : ""}>
+                            Hecho
+                          </label>
+                          <a class="demo-link" href="${youtubeLink(ex[0])}" target="_blank" rel="noreferrer">
+                            Ver tecnica
+                          </a>
+                        </div>
+                      </div>
+                    </article>
+                  `;
+                }).join("")}
               </div>
-            </article>
+            </details>
           `).join("")}
         </div>
-      </section>
-    `).join("");
+      `;
+    }
+
+    function updateProgress(){
+      const day = days.find(item => item.id === activeDay);
+      const total = allExercises(day).length;
+      let currentDone = 0;
+      let allDone = 0;
+
+      days.forEach(item => {
+        item.blocks.forEach((block, blockIndex) => {
+          block.exercises.forEach((_, exerciseIndex) => {
+            const id = exerciseId(item, blockIndex, exerciseIndex);
+            if(checks[id]){
+              allDone += 1;
+              if(item.id === activeDay) currentDone += 1;
+            }
+          });
+        });
+      });
+
+      const percent = total ? Math.round((currentDone / total) * 100) : 0;
+      doneCount.textContent = allDone;
+      dayCount.textContent = `${currentDone}/${total}`;
+      progressText.textContent = `${percent}%`;
+      progressFill.style.width = `${percent}%`;
+    }
+
+    function setActiveDay(dayId){
+      activeDay = dayId;
+      renderTabs();
+      renderRoutine();
+      updateProgress();
+      document.querySelector("#routine").scrollIntoView({behavior:"smooth", block:"start"});
+    }
+
+    function getNextTrainingDay(){
+      const today = new Date().getDay();
+      const schedule = [
+        {day:2, id:"superior-a"},
+        {day:4, id:"inferior-a"},
+        {day:6, id:"superior-b"},
+        {day:0, id:"inferior-b"}
+      ];
+
+      return schedule
+        .map(item => ({...item, distance:(item.day - today + 7) % 7}))
+        .sort((a,b) => a.distance - b.distance)[0].id;
+    }
+
+    document.addEventListener("click", event => {
+      const dayButton = event.target.closest("[data-day]");
+      if(dayButton){
+        setActiveDay(dayButton.dataset.day);
+      }
+
+      const guideButton = event.target.closest("[data-guide]");
+      if(guideButton){
+        document.querySelectorAll(".mini-tab").forEach(btn => btn.classList.remove("active"));
+        document.querySelectorAll(".guide").forEach(panel => panel.classList.remove("active"));
+        guideButton.classList.add("active");
+        document.querySelector(`#guide-${guideButton.dataset.guide}`).classList.add("active");
+      }
+    });
+
+    document.addEventListener("change", event => {
+      if(event.target.matches("[data-check]")){
+        checks[event.target.dataset.check] = event.target.checked;
+        if(!event.target.checked) delete checks[event.target.dataset.check];
+        saveChecks();
+        updateProgress();
+      }
+    });
+
+    document.querySelector("#todayBtn").addEventListener("click", () => setActiveDay(getNextTrainingDay()));
+
+    document.querySelector("#expandBtn").addEventListener("click", event => {
+      const blocks = [...document.querySelectorAll("details.block")];
+      const shouldOpen = blocks.some(block => !block.open);
+      blocks.forEach(block => block.open = shouldOpen);
+      event.currentTarget.textContent = shouldOpen ? "Cerrar bloques" : "Abrir bloques";
+    });
+
+    document.querySelector("#resetBtn").addEventListener("click", () => {
+      checks = {};
+      saveChecks();
+      renderRoutine();
+      updateProgress();
+    });
+
+    renderTabs();
+    renderWeek();
+    renderRoutine();
+    updateProgress();
   </script>
 </body>
 </html>
